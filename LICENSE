@@ -1,0 +1,22 @@
+ IngotPlugins Terms of Service
+  With this product you are allowed to do the following:
+  - use the plugin in any server that has "online-mode" in "server.properties" setting set to "true", unless "bungee-mode" in "spigot.yml" is also set to "true".*
+  - modify the code of the plugin to suit your needs**
+  - redistribute the plugin if you make any changes***
+  With this product you are not allowed to do the following:
+  - sell this plugin for any amount of money, regardless if the code is unmodified or modified.
+  - use this plugin in a server that has both "online-mode" in "server.properties" and "bungee-mode" in "spigot.yml" set to "false".*
+  
+  The owner of IngotPlugins (Budderman18) has the right to override any of these terms at any time.
+  
+  *in order for the "spigot.yml" clause to apply, the server needs to be connected to a functioning bungeecord or bungeecord-forked server that disallows all players that have not purchased the game from any mojang or microsoft approved method. if the "spigot.yml" clause does not apply for your enviorment, only the "online-mode" clause applies.
+  **All modifications must meet the following terms:
+  - You must be a public open-source project
+  - You must have the same license as the main source (this).
+  - You must have a functinoal link to this exact source.
+  - You must have credit to the owner of Ingot Plugins, which is Budderman18, both in the default "language.yml"'s "plugin-enabled-message" AND in the plugin's "plugin.yml" under section "authors"****
+  - You must code with legable terms, both in the source files and compiled files. Anyone with significant java experience should be able to read your code without any outside tools required within a minimum 4 hours of research time. No obfuscation is allowed.
+  ***In order to redistribute the plugin, you must make at least 1 significant change that affects the plugin's functionality. As well, you must follow all the terms listed in the "**" section.
+  **** Credit requires the mention of at least the exact string, " by Budderman18".
+  
+  Last Modified: 12/25/2022 10:37 PM GMT-5
