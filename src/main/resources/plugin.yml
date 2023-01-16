@@ -3,7 +3,7 @@ authors:
 - Budderman18
 description: "A skywars plugin focused on simplicity and efficency."
 main: com.budderman18.IngotSkywars.Main
-version: 1.0.2
+version: 1.0
 api-version: 1.13
 depend: [IngotMinigamesAPI]
 softdepend: [Multiverse-Core]
