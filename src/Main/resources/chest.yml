@@ -1,0 +1,55 @@
+#don't touch this
+version: "1.0.3"
+#customize chests!
+#You can add as many as you want
+#Just ensure the "material" is in the first storage slot (slot 0)
+#You can only use chests, trapped_chests, barrels, and shulker boxes
+#All items inside the chest will be cleared and regenerated afterward
+#TABLE_NAME:
+    #material: BLOCKNAME
+    #items:
+    #- ITEMNAME§AMOUNT§DURABILITTY§ENCHANTMENTNAME^LEVEL* or (EFFECTNAME^LENGTH^AMPLIFIER*) or (TYPE^COLOR^FADE^FLICKER^TRAIL*)§NAME§LORE‰§UNBREAKABLE¥PERCENTCHANCE¥CATEGORY
+#Percent chance must add to 100, no more, no less!
+#Category is only needed if you want a garunteed set of items. Itll ensure at least 1 item per category is filled.
+TIER_1:
+    material: WHITE_WOOL
+    minimum_items: 4
+    maximum_items: 8
+    useCategory: true
+    items:
+    - COOKED_PORKCHOP§4§0§§§§¥50¥0
+    - WOODEN_SWORD§1§SHARPNESS^1*UNBREAKING^2*§§§¥5¥1
+    - LEATHER_CAP§1§0§§§§¥10¥2
+    - LEATHER_TUNIC§1§0§§§§¥10¥2
+    - LEATHER_PANTS§1§0§§§§¥10¥2
+    - LEATHER_BOOTS§1§0§§§§¥10¥2
+    - POTION:1§0§REGENERATION^22^1*§§§¥5¥3
+TIER_2:
+    material: ORANGE_WOOL
+    minimum_items: 4
+    maximum_items: 8
+    useCategory: true
+    items:
+    - GOLDEN_CARROT§3§0§§§§¥50¥0
+    - IRON_SWORD§1§0§SHARPNESS^3*UNBREAKING^1*§§§¥5¥1
+    - CHAINMAIL_HELMET§1§0§§§§¥10¥2
+    - CHAINMAIL_CHESTPLATE§1§0§§§§¥10¥2
+    - CHAINMAIL_LEGGINGS§1§0§§§§¥10¥2
+    - CHAINMAIL_BOOTS§1§0§§§§¥10¥2
+    - SPLASH_POTION§1§0§POISON^22^1*§§§¥5¥3
+#Customize the supply drops!
+#they work the same as normal chests, although only 1 type is allowed AND there is an "animation" option
+SUPPLY_DROP:
+    material: BLACK_WOOL
+    minimum_items: 4
+    maximum_items: 8
+    useCategory: true
+    animation: SKYFALL
+    items:
+    - GOLDEN_APPLE§2§0§§§§¥50¥0
+    - DIAMOND_AXE§1§0§DAMAGE_ARTHROPODS^2*KNOCKBACK^1*DURABILITY^2*§§§¥5¥1
+    - IRON_HELMET§1§0§§§§¥10¥2
+    - IRON_CHESTPLATE§1§0§§§§¥10¥2
+    - IRON_LEGGINGS§1§0§§§§¥10¥2
+    - IRON_BOOTS§1§0§§§§¥10¥2
+    - LINGER_POTION§1§0§§HARM^0^1*§§§¥5¥3
