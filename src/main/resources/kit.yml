@@ -1,0 +1,38 @@
+#don't touch this
+version: 1.0.3
+#create your own kits!
+#you can add as many as you want
+#ensure that the index value starts from 0 and counts up for every kit they have
+#the lowest index kits should be nearer to the top of the file!
+#If you don't follow those, things will break
+#KIT_NAME:
+    #permission:
+    #index:
+    #items:
+    #- INDEX§ITEMNAME§AMOUNT§DURABILITTY§ENCHANTMENTNAME^LEVEL* or (EFFECTNAME^LENGTH^AMPLIFIER*) or (TYPE^COLOR^FADE^FLICKER^TRAIL*)§NAME§LORE‰§UNBREAKABLE¥PERCENTCHANCE¥CATEGORY
+    #effects:
+    #- EFFECTNAME§LENGTH§POTENCY
+Standard:
+    permission: "ingotsw.kit.standard"
+    index: 0
+    items:
+    - 0§DRIED_KELP§64§0§§§§
+    - 1§WOODEN_SWORD§1§0§KNOCKBACK^1*DURABILITY^2*§§§
+    - 38§LEATHER_HELMET§1§0§§§§
+    - 39§LEATHER_CHESTPLATE§1§0§§§§
+    - 40§LEATHER_LEGGINGS§1§0§§§§
+    - 41§LEATHER_BOOTS§1§0§§§§
+    effects: {}
+OP:
+    permission: "ingotsw.kit.op"
+    index: 1
+    items:
+    - 0§COOKED_BEEF§8§0§§§§
+    - 1§IRON_SWORD§1§0§DAMAGE_ALL^1*UNBREAKING^1*§§§
+    - 38§CHAINMAIL_HELMET§1§0§§§§
+    - 39§CHAINMAIL_CHESTPLATE§1§0§§§§
+    - 40§CHAINMAIL_LEGGINGS§1§0§§§§
+    - 41§CHAINMAIL_BOOTS§1§0§§§§
+    effects:
+    - STRENGTH§10000§1
+    - REGENERATION§10000§2

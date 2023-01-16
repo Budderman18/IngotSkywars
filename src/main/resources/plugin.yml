@@ -1,0 +1,195 @@
+name: IngotSkywars
+authors:
+- Budderman18
+description: "A skywars plugin focused on simplicity and efficency."
+main: com.budderman18.IngotSkywars.Main
+version: 1.0.2
+api-version: 1.13
+depend: [IngotMinigamesAPI]
+softdepend: [Multiverse-Core]
+commands:
+    sw:
+        description: Access skywars commands
+        default: true
+        usage: /sw [command]
+        permission: ingotsw.sw
+    swadmin:
+        description: Access skywars's admin commands
+        default: op
+        usage: /swadmin [command]
+        permission: ingotsw.swadmin
+permissions:
+    ingotsw.sw:
+        description: Gives access to the /sw base command
+        default: true
+    ingotsw.sw.join:
+        description: Gives access to the /sw join command
+        default: true
+    ingotsw.sw.randomjoin:
+        description: Gives access to the /sw randomjoin command
+        default: true
+    ingotsw.sw.leave:
+        description: Gives access to the /sw leave command
+        default: true
+    ingotsw.sw.team:
+        description: Gives access to the /sw team command
+        default: true
+    ingotsw.sw.kit:
+        description: Gives access to the /sw kit command
+        default: true
+    ingotsw.sw.list:
+        description: Gives access to the /sw list command
+        default: true
+    ingotsw.sw.help:
+        description: Gives access to the /sw help command
+        default: true
+    ingotsw.swadmin:
+        descrpition: Gives access to the /swadmin base command
+        default: op
+    ingotsw.swadmin.arena:
+        descrpition: Gives access to the /swadmin arena base command
+        default: op
+    ingotsw.swadmin.arena.create:
+        descrpition: Gives access to the /swadmin arena create command
+        default: op
+    ingotsw.swadmin.arena.delete:
+        descrpition: Gives access to the /swadmin arena delete command
+        default: op
+    ingotsw.swadmin.arena.edit:
+        descrpition: Gives access to the /swadmin arena edit command
+        default: op
+    ingotsw.swadmin.arena.chests:
+        descrpition: Gives access to the /swadmin arena chests command
+        default: op
+    ingotsw.swadmin.arena.spawn:
+        descrpition: Gives access to the /swadmin arena spawn base command
+        default: op
+    ingotsw.swadmin.arena.borderEvents:
+        descrpition: Gives access to the /swadmin arena borderEvents base command
+        default: op
+    ingotsw.swadmin.arena.schematic:
+        descrpition: Gives access to the /swadmin arena schematic command
+        default: op
+    ingotsw.swadmin.arena.regenerate:
+        descrpition: Gives access to the /swadmin arena regenerate command
+        default: op
+    ingotsw.swadmin.arena.pos1:
+        descrpition: Gives access to the /swadmin arena pos1 command
+        default: op
+    ingotsw.swadmin.arena.pos2:
+        descrpition: Gives access to the /swadmin arena pos2 command
+        default: op
+    ingotsw.swadmin.arena.select:
+        descrpition: Gives access to the /swadmin arena select command
+        default: op
+    ingotsw.swadmin.arena.toggle:
+        descrpition: Gives access to the /swadmin arena toggle command
+        default: op
+    ingotsw.swadmin.arena.spawn.create:
+        descrpition: Gives access to the /swadmin spawn create command
+        default: op
+    ingotsw.swadmin.arena.spawn.delete:
+        descrpition: Gives access to the /swadmin spawn delete command
+        default: op
+    ingotsw.swadmin.arena.spawn.list:
+        description: Gives access to the /swadmin spawn list command
+        default: op
+    ingotsw.swadmin.arena.borderEvents.create:
+        descrpition: Gives access to the /swadmin borderEvents create command
+        default: op
+    ingotsw.swadmin.arena.borderEvents.delete:
+        descrpition: Gives access to the /swadmin borderEvents delete command
+        default: op
+    ingotsw.swadmin.arena.borderEvents.list:
+        description: Gives access to the /swadmin borderEvents list command
+        default: op
+    ingotsw.swadmin.hologram:
+        descrpition: Gives access to the /swadmin hologram base command
+        default: op
+    ingotsw.swadmin.hologram.create:
+        descrpition: Gives access to the /swadmin hologram create command
+        default: op
+    ingotsw.swadmin.hologram.delete:
+        descrpition: Gives access to the /swadmin hologram delete command
+        default: op
+    ingotsw.swadmin.hologram.refresh:
+        descrpition: Gives access to the /swadmin hologram refresh command
+        default: op
+    ingotsw.swadmin.hologram.recalculateScore:
+        descrpition: Gives access to the /swadmin hologram recalculateScore command
+        default: op
+    ingotsw.swadmin.help:
+        description: Gives access to the /swadmin help command
+        default: op
+    ingotsw.swadmin.reload:
+        description: Gives access to the /swadmin reload command
+        default: op
+    ingotsw.swadmin.version:
+        description: Gives access to the /swadmin versiom command
+        default: op
+    ingotsw.sw.*:
+        description: gives access to all /sw commands
+        default: op
+        children:
+        - ingotsw.sw
+        - ingotsw.sw.join
+        - ingotsw.sw.kit
+        - ingotsw.sw.team
+        - ingotsw.sw.randomJoin
+        - ingotsw.sw.leave
+        - ingotsw.sw.list
+        - ingotsw.sw.help
+    ingotsw.swadmin.arena.spawn.*:
+        description: Gives access to all /sw admin arena spawn commands
+        default: op
+        childern:
+        - ingotsw.swadmin.arena.spawn
+        - ingotsw.swadmin.arena.spawn.create
+        - ingotsw.swadmin.arena.spawn.delete
+        - ingotsw.swadmin.arena.spawn.list
+    ingotsw.swadmin.arena.borderEvents.*:
+        description: Gives access to all /sw admin arena borderEvents commands
+        default: op
+        childern:
+        - ingotsw.swadmin.arena.borderEvents
+        - ingotsw.swadmin.arena.borderEvents.create
+        - ingotsw.swadmin.arena.borderEvents.delete
+        - ingotsw.swadmin.arena.borderEvents.list
+    ingotsw.swadmin.arena.*:
+        description: Gives access to all /sw admin arena commands
+        default: op
+        childern:
+        - ingotsw.swadmin.arena
+        - ingotsw.swadmin.arena.create
+        - ingotsw.swadmin.arena.delete
+        - ingotsw.swadmin.arena.edit
+        - ingotsw.swadmin.arena.spawn.*
+        - ingotsw.swadmin.arena.borderEvents.*
+        - ingotsw.swadmin.arena.select
+        - ingotsw.swadmin.arena.chests
+        - ingotsw.swasmin.arena.toggle
+        - ingotsw.swadmin.arena.regenerate
+        - ingotsw.swadmin.arena.schematic
+        - ingotsw.swadmin.arena.pos1
+        - ingotsw.swadmin.arena.pos2
+    ingotsw.swadmin.hologram.*:
+        description: Gives access to all /swadmin hologram commands
+        default: op
+        childern:
+        - ingotsw.swadmin.hologram
+        - ingotsw.swadmin.hologram.create
+        - ingotsw.swadmin.hologram.delete
+        - ingotsw.swadmin.hologram.refresh
+        - ingotsw.swadmin.hologram.recalculateScore
+    ingotsw.swadmin.*:
+        description: Gives access to all /sw admin commands
+        default: op
+        childern:
+        - ingotsw.swadmin.arena.*
+        - ingotsw.swadmin.hologram.*
+        - ingotsw.swadmin.help
+        - ingotsw.swadmin.reload
+        - ingotsw.swadmin.version
+    ingotsw.arenas.*:
+        description: Gives access to all arenas
+        default: op
