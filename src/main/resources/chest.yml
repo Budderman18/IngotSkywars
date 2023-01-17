@@ -1,5 +1,5 @@
 #don't touch this
-version: "1.0.3"
+version: "1.0"
 #customize chests!
 #You can add as many as you want
 #Just ensure the "material" is in the first storage slot (slot 0)
