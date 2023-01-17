@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.budderman18.IngotSkywars</groupId>
     <artifactId>IngotSkywars</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>  
     <repositories>
        <repository>
@@ -15,7 +15,7 @@
         <dependency>
             <groupId>com.budderman18.IngotMinigamesAPI</groupId>
             <artifactId>IngotMinigamesAPI</artifactId>
-            <version>1.0.3</version>
+            <version>1.0.4</version>
             <scope>provided</scope>
         </dependency>
         <dependency>
