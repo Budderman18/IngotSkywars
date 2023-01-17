@@ -1,5 +1,5 @@
 #dont touch
-version: "1.0.3"
+version: "1.0"
 #enable debug messages
 #only needed for fixing issues (unless you're a developer or one tells you to, you do not need this)
 enable-debug-mode: false
@@ -34,8 +34,8 @@ Score:
 #use %player% for the playname, %type% for the leaderboard type, and %value% for the value
 Leaderboard:
     max-size: 10
-    header: "&9======== &6Top %type%s &9========"
-    format: "&a %player% &f- &c%value"
+    header: "&9======== &6Top %type% &9========"
+    format: "&a %player% &f- &c%value%"
     footer: "&9===================="
 #Configure grace period
 #You can set length (in seconds), cancel on hit and effects
