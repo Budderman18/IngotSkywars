@@ -1,5 +1,5 @@
 #don't touch this
-version: "1.0.3"
+version: "1.0"
 #Configure every message here!
 #Note: changing the command names here doesnt actually change them
 # Example: Changing "/swadmin info" to "adminsw info" doesn't change the command. You still need to use "/swadmin info"
