@@ -47,8 +47,7 @@ public class SWArena extends Arena {
     private SWArena() {}
     /**
      *
-     * This method creates a new swarena.It will also save the settings file.
-     * Use createArenaSchematic() for the region file
+     * This method creates a new swarena.It will also save the settings file.Use createArenaSchematic() for the region file
      *
      * @param pos1 the negative-most corner of the arena
      * @param pos2 the positive-most corner of the arena
@@ -78,10 +77,11 @@ public class SWArena extends Arena {
      * @param dropss the supply drop locations
      * @param borderChange the events that change the worldborder
      * @param saveFilee weather or not to save a settings file
+     * @param permName name of the permission to add
      * @param pluginn the plugin to attach this arena to
      * @return The arena object that was generated
      */
-    public static SWArena createArena(int[] pos1, int[] pos2, String worldd, String arenaName, byte minPlayerss, byte skipPlayerss, byte maxPlayerss, byte teamSizee, int lobbyWaitTimee, int lobbySkipTimee, int gameWaitTimee, int gameLengthh, double[] lobbyPoss, String lobbyWorldd, double[] exitPoss, String exitWorldd, double[] specPoss, double[] centerPoss, ArenaStatus statuss, int dropStart, int dropInt, int dropEnd, short borderSizee, List<Chest> chestss, List<Block> dropss, HashMap<Double, Short> borderChange, String filePathh, boolean saveFilee, Plugin pluginn) {
+    public static SWArena createArena(int[] pos1, int[] pos2, String worldd, String arenaName, byte minPlayerss, byte skipPlayerss, byte maxPlayerss, byte teamSizee, int lobbyWaitTimee, int lobbySkipTimee, int gameWaitTimee, int gameLengthh, double[] lobbyPoss, String lobbyWorldd, double[] exitPoss, String exitWorldd, double[] specPoss, double[] centerPoss, ArenaStatus statuss, int dropStart, int dropInt, int dropEnd, short borderSizee, List<Chest> chestss, List<Block> dropss, HashMap<Double, Short> borderChange, String filePathh, boolean saveFilee, String permName, Plugin pluginn) {
         //newArena
         Arena extendedArena = null;
         SWArena arena = new SWArena();
@@ -91,7 +91,7 @@ public class SWArena extends Arena {
         //check if unextended arena needs creation
         if (Arena.selectArena(arenaName, pluginn) == null) {
             //create arena
-            extendedArena = Arena.createArena(pos1, pos2, worldd, arenaName, minPlayerss, skipPlayerss, maxPlayerss, teamSizee, lobbyWaitTimee, lobbySkipTimee, gameWaitTimee, gameLengthh, lobbyPoss, lobbyWorldd, exitPoss, exitWorldd, specPoss, centerPoss, filePathh, saveFilee, statuss, pluginn);    
+            extendedArena = Arena.createArena(pos1, pos2, worldd, arenaName, minPlayerss, skipPlayerss, maxPlayerss, teamSizee, lobbyWaitTimee, lobbySkipTimee, gameWaitTimee, gameLengthh, lobbyPoss, lobbyWorldd, exitPoss, exitWorldd, specPoss, centerPoss, filePathh, saveFilee, statuss, permName, pluginn);    
         }
         else {
             //select arena
@@ -325,7 +325,7 @@ public class SWArena extends Arena {
         newArena.setCurrentPlayers(arena.getCurrentPlayers());
         newArena.setFilePath(arena.getFilePath());
         //cycle through arenas
-        for (Arena key : Arena.getInstances()) {
+        for (Arena key : Arena.getInstances(staticPlugin)) {
             //check if arena matches this one
             if (key.getName().equalsIgnoreCase(arena.getName())) {
                 //set index

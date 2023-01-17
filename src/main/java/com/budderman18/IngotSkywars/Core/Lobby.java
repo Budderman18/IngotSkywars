@@ -401,7 +401,7 @@ public class Lobby {
                             }
                             //reset scoreboard
                             ScoreboardHandler.clearScoreboard(player);
-                            ScoreboardHandler.setTitle(player, ChatColor.translateAlternateColorCodes('&', "&7[&6IngotSurvivalGames&7]"), config.getBoolean("Scoreboard.importMainScoreboard"));
+                            ScoreboardHandler.setTitle(player, ChatColor.translateAlternateColorCodes('&', config.getString("Scoreboard.title") + ""), config.getBoolean("Scoreboard.importMainScoreboard"));
                             //cycle though scoreboard limit
                             for (byte i = 0; i < config.getInt("Scoreboard.maxLines"); i++) {
                                 //check if line is not null

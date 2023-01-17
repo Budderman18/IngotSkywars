@@ -562,12 +562,15 @@ public class Game {
             this.tempPlayers = 0;
             this.alivePlayers = 0;
             //update leaderboards
-            for (Leaderboard key : Leaderboard.getInstances()) {
+            for (Leaderboard key : Leaderboard.getInstances(plugin)) {
                 //update leaderboard
-                key.setPlayers(IngotPlayer.getInstances());
+                key.setPlayers(IngotPlayer.getInstances(plugin));
                 key.organizeLeaderboard(true);
                 key.killHologram(false);
-                key.summonHologram(config.getString("Leaderboard.header"), config.getString("Leaderboard.format"), config.getString("Leaderboard.footer"), true);
+                try {
+                    key.summonHologram(config.getString("Leaderboard.header"), config.getString("Leaderboard.format"), config.getString("Leaderboard.footer"), true);
+                }
+                catch (NullPointerException ex) {}
             }
         };
         //run for active game logic
@@ -610,7 +613,7 @@ public class Game {
                             }
                         }
                         //clear spawns
-                        for (Spawn keys : Spawn.getInstances()) {
+                        for (Spawn keys : Spawn.getInstances(plugin)) {
                             //set occupied
                             keys.setIsOccupied(false);
                         }
@@ -694,7 +697,7 @@ public class Game {
                             }
                             //clear scoreboard
                             ScoreboardHandler.clearScoreboard(player);
-                            ScoreboardHandler.setTitle(player, ChatColor.translateAlternateColorCodes('&', "&7[&6IngotSurvivalGames&7]"), config.getBoolean("Scoreboard.importMainScoreboard"));
+                            ScoreboardHandler.setTitle(player, ChatColor.translateAlternateColorCodes('&', config.getString("Scoreboard.title") + ""), config.getBoolean("Scoreboard.importMainScoreboard"));
                             //cycle though scoreboard limit
                             for (byte i = 0; i < config.getInt("Scoreboard.maxLines"); i++) {
                                 //check if line is not null
