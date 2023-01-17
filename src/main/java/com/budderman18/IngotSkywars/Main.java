@@ -106,7 +106,7 @@ public class Main extends JavaPlugin implements Listener {
         boolean wl = false;
         boolean score = false;
         //delete all currently loaded players
-        for (IngotPlayer key : IngotPlayer.getInstances()) {
+        for (IngotPlayer key : IngotPlayer.getInstances(plugin)) {
             key.deletePlayer();
         }
         //cycle through file
@@ -137,11 +137,11 @@ public class Main extends JavaPlugin implements Listener {
             }
             else {
                 //create new board
-                Leaderboard.createBoard(key, LeaderboardType.getFromString(hologram.getString(key + ".type")), IngotPlayer.getInstances(), hologramm, new Location(Bukkit.getWorld(hologram.getString(key + ".location.world")), hologram.getDouble(key + ".location.x"), hologram.getDouble(key + ".location.y"), hologram.getDouble(key + ".location.z")), (byte) hologram.getInt(key + ".max-size"), Boolean.parseBoolean(hologram.getString(key + ".invert-list")), Boolean.parseBoolean(hologram.getString(key + ".summoned")), plugin);
+                Leaderboard.createBoard(key, LeaderboardType.getFromString(hologram.getString(key + ".type")), IngotPlayer.getInstances(plugin), hologramm, new Location(Bukkit.getWorld(hologram.getString(key + ".location.world")), hologram.getDouble(key + ".location.x"), hologram.getDouble(key + ".location.y"), hologram.getDouble(key + ".location.z")), (byte) hologram.getInt(key + ".max-size"), Boolean.parseBoolean(hologram.getString(key + ".invert-list")), Boolean.parseBoolean(hologram.getString(key + ".summoned")), plugin);
             }
         }
         //cycle through current leaderboards
-        for (Leaderboard key : Leaderboard.getInstances()) {
+        for (Leaderboard key : Leaderboard.getInstances(plugin)) {
             //check for kill
             if (key.getName().equalsIgnoreCase("kills")) {
                 kills = true;
@@ -172,7 +172,7 @@ public class Main extends JavaPlugin implements Listener {
             }
         }
         //cycle through leaderboards
-        for (Leaderboard key : Leaderboard.getInstances()) {
+        for (Leaderboard key : Leaderboard.getInstances(plugin)) {
             try {
                 //check if there is at least 1 player
                 if (key.getPlayers().get(0).getUsername() != null) {
@@ -190,43 +190,43 @@ public class Main extends JavaPlugin implements Listener {
         //check for kills
         if (kills == false) {
             //set board to kills
-            board = Leaderboard.createBoard("kills", LeaderboardType.KILLS, IngotPlayer.getInstances(), null, null, maxSize, false, false, plugin);
+            board = Leaderboard.createBoard("kills", LeaderboardType.KILLS, IngotPlayer.getInstances(plugin), null, null, maxSize, false, false, plugin);
             board.organizeLeaderboard(true);
         }
         //check for deaths
         if (deaths == false) {
             //set board to deaths
-            board = Leaderboard.createBoard("deaths", LeaderboardType.DEATHS, IngotPlayer.getInstances(), null, null, maxSize, false, false, plugin);
+            board = Leaderboard.createBoard("deaths", LeaderboardType.DEATHS, IngotPlayer.getInstances(plugin), null, null, maxSize, false, false, plugin);
             board.organizeLeaderboard(true);
         }
         //check for wins
         if (wins == false) {
             //set board to wins
-            board = Leaderboard.createBoard("wins", LeaderboardType.WINS, IngotPlayer.getInstances(), null, null, maxSize, false, false, plugin);
+            board = Leaderboard.createBoard("wins", LeaderboardType.WINS, IngotPlayer.getInstances(plugin), null, null, maxSize, false, false, plugin);
             board.organizeLeaderboard(true);
         }
         //check for losses
         if (losses == false) {
             //set board to losses
-            board = Leaderboard.createBoard("losses", LeaderboardType.LOSSES, IngotPlayer.getInstances(), null, null, maxSize, false, false, plugin);
+            board = Leaderboard.createBoard("losses", LeaderboardType.LOSSES, IngotPlayer.getInstances(plugin), null, null, maxSize, false, false, plugin);
             board.organizeLeaderboard(true);
         }
         //check for kd
         if (kd == false) {
             //set board to kd
-            board = Leaderboard.createBoard("kdratio", LeaderboardType.KDRATIO, IngotPlayer.getInstances(), null, null, maxSize, false, false, plugin);
+            board = Leaderboard.createBoard("kdratio", LeaderboardType.KDRATIO, IngotPlayer.getInstances(plugin), null, null, maxSize, false, false, plugin);
             board.organizeLeaderboard(true);
         }
         //check for wl
         if (wl == false) {
             //set board to wl
-            board = Leaderboard.createBoard("wlratio", LeaderboardType.WLRATIO, IngotPlayer.getInstances(), null, null, maxSize, false, false, plugin);
+            board = Leaderboard.createBoard("wlratio", LeaderboardType.WLRATIO, IngotPlayer.getInstances(plugin), null, null, maxSize, false, false, plugin);
             board.organizeLeaderboard(true);
         }
         //check for score
         if (score == false) {
             //set to board
-            board = Leaderboard.createBoard("score", LeaderboardType.SCORE, IngotPlayer.getInstances(), null, null, maxSize, false, false, plugin);
+            board = Leaderboard.createBoard("score", LeaderboardType.SCORE, IngotPlayer.getInstances(plugin), null, null, maxSize, false, false, plugin);
             board.organizeLeaderboard(true);
         }
     }
@@ -382,7 +382,7 @@ public class Main extends JavaPlugin implements Listener {
                     Bukkit.getPluginManager().removePermission("ingotsw.arenas." + name);
                 }
                 //create arena
-                temparena = SWArena.createArena(pos1, pos2, world, name, minPlayers, skipPlayers, maxPlayers, teamSize, lobbyWaitTime, lobbySkipTime, gameWaitTime, gameLengthTime, lobby, lobbyWorld, exit, exitWorld, spec, center, status, dropStart, dropInterval, dropEnd, borderSize, null, null, null, "/Arenas/" + key + '/', true, plugin);
+                temparena = SWArena.createArena(pos1, pos2, world, name, minPlayers, skipPlayers, maxPlayers, teamSize, lobbyWaitTime, lobbySkipTime, gameWaitTime, gameLengthTime, lobby, lobbyWorld, exit, exitWorld, spec, center, status, dropStart, dropInterval, dropEnd, borderSize, null, null, null, "/Arenas/" + key + '/', true, "ingotsw.arenas." + name, plugin);
                 //set lobby again
                 temparena.setLobby(lobby);
                 temparena.setLobbyWorld(lobbyWorld);
@@ -645,7 +645,7 @@ public class Main extends JavaPlugin implements Listener {
             catch (IndexOutOfBoundsException ex) {}
         }
         //save holograms
-        for (Leaderboard key : Leaderboard.getInstances()) {
+        for (Leaderboard key : Leaderboard.getInstances(plugin)) {
             key.saveToFile(false);
             key.killHologram(false);
         }
