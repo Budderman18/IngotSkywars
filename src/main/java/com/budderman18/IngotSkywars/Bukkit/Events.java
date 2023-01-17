@@ -246,7 +246,7 @@ public class Events implements Listener {
         //check if entity is an armor stand
         if (event.getEntity().getType() == EntityType.ARMOR_STAND) {
             //cycle through leaderboards
-            for (Leaderboard key : Leaderboard.getInstances()) {
+            for (Leaderboard key : Leaderboard.getInstances(plugin)) {
                 //cycle through hologram
                 for (ArmorStand keys : key.getHologram()) {
                     //check if entity is apart of a hologram
@@ -446,9 +446,9 @@ public class Events implements Listener {
         //local vars
         boolean cancel = false;
         //check if entity is an armor stand
-        if (event.getEntity().getType() == EntityType.ARMOR_STAND) {
+        if (event.getEntity().getType() == EntityType.ARMOR_STAND && config.getBoolean("protect-holograms-from-kill-commands") == true) {
             //cycle through leaderboards
-            for (Leaderboard key : Leaderboard.getInstances()) {
+            for (Leaderboard key : Leaderboard.getInstances(plugin)) {
                 //cycle through hologram
                 for (ArmorStand keys : key.getHologram()) {
                     //check if entity is apart of a hologram
@@ -842,7 +842,7 @@ public class Events implements Listener {
             //create object
             iplayer = IngotPlayer.createPlayer(event.getPlayer().getName(), false, false, false, false, false, false, (byte) 0, (short) (0), (short) (0), (short) (0), (short) (0), (short) (0), "", plugin);
             //cycle throuhg leaderboards
-            for (Leaderboard key : Leaderboard.getInstances()) {
+            for (Leaderboard key : Leaderboard.getInstances(plugin)) {
                 //check if board is of this plugin
                 if (key.getPlugin() == plugin) {
                     //add the new player

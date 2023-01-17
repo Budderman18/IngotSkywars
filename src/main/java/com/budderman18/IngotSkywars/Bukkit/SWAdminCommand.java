@@ -613,7 +613,7 @@ public class SWAdminCommand implements TabExecutor {
                                     //check if pos1 is not greater than pos2
                                     if (pos1[0] < pos2[0] && pos1[1] < pos2[1] && pos1[2] < pos2[2]) {
                                         //create arena
-                                        currentArena = SWArena.createArena(pos1, pos2, player.getWorld().getName(), args[2], (byte) 0, (byte) (0), (byte) 0, (byte) (0), 0, 0, 0, 0, null, "", null, "", null, null, ArenaStatus.DISABLED, 0, 0, 0, (short) 0, null, null, null, "/Arenas/" + args[2] + '/', true, plugin);
+                                        currentArena = SWArena.createArena(pos1, pos2, player.getWorld().getName(), args[2], (byte) 0, (byte) (0), (byte) 0, (byte) (0), 0, 0, 0, 0, null, "", null, "", null, null, ArenaStatus.DISABLED, 0, 0, 0, (short) 0, null, null, null, "/Arenas/" + args[2] + '/', true, "ingotsw.arenas." + args[2], plugin);
                                         currentArena.saveFiles(false);
                                         currentArena.getArenaEquivelent().createArenaSchematic();
                                         GameBorder.createBorder(args[2], 0, null, null, 0, 0, (short) 0, 0, currentArena.getArenaEquivelent(), false, plugin);
@@ -944,7 +944,7 @@ public class SWAdminCommand implements TabExecutor {
                                         //check if running and confirmed
                                         if (tempArena.getArenaEquivelent().getStatus() == ArenaStatus.RUNNING && toggleConfirming == true) {
                                             //cycle through all iplayers
-                                            for (IngotPlayer key : IngotPlayer.getInstances()) {
+                                            for (IngotPlayer key : IngotPlayer.getInstances(plugin)) {
                                                 //check if in lobby
                                                 if (key.getInGame() == true && key.getIsPlaying() == false && key.getGame().equalsIgnoreCase(tempArena.getName())) {
                                                     Lobby.selectLobby(tempArena).leaveLobby(key, true, config.getBoolean("enable-inventories"));
@@ -1053,6 +1053,11 @@ public class SWAdminCommand implements TabExecutor {
                                             else {
                                                 //get arenas
                                                 tempArena = SWArena.selectArena(args[3], plugin);
+                                            }
+                                            //check if arena is still null
+                                            if (tempArena == null) {
+                                                sender.sendMessage(prefixMessage + arenaInvalidArenaMessage);
+                                                return true;
                                             }
                                             //check if arena is disabled
                                             if (tempArena.getArenaEquivelent().getStatus() == ArenaStatus.DISABLED) {
@@ -1407,7 +1412,7 @@ public class SWAdminCommand implements TabExecutor {
                                     if (tempboard.getSummoned() == true) {
                                         //recalculate the players
                                         swplayers.clear();
-                                        for (IngotPlayer key : IngotPlayer.getInstances()) {
+                                        for (IngotPlayer key : IngotPlayer.getInstances(plugin)) {
                                             if (key.getPlugin() == plugin) {
                                                 swplayers.add(key);
                                             }
@@ -1445,7 +1450,7 @@ public class SWAdminCommand implements TabExecutor {
                             tempboard = Leaderboard.selectBoard("score", plugin);
                             //recalculate the players
                             swplayers.clear();
-                            for (IngotPlayer key : IngotPlayer.getInstances()) {
+                            for (IngotPlayer key : IngotPlayer.getInstances(plugin)) {
                                 if (key.getPlugin() == plugin) {
                                     swplayers.add(key);
                                 }
@@ -1463,7 +1468,7 @@ public class SWAdminCommand implements TabExecutor {
                                 key.setScore(score);
                             }
                             //refresh hologram
-                            tempboard.setPlayers(IngotPlayer.getInstances());
+                            tempboard.setPlayers(IngotPlayer.getInstances(plugin));
                             tempboard.organizeLeaderboard(true);
                             tempboard.summonHologram(config.getString("Leaderboard.header"), config.getString("Leaderboard.format"), config.getString("Leaderboard.footer"), true);
                             sender.sendMessage(prefixMessage + hologramRecalculateScoreMessage);
@@ -1528,7 +1533,7 @@ public class SWAdminCommand implements TabExecutor {
                         //reload feature
                         if (args[0].equalsIgnoreCase("reload")) {
                             //cycle throuhg all players. this runs the stuff from the .leave() methods that for some reason fails to run (visual stuff)
-                            for (IngotPlayer key : IngotPlayer.getInstances()) {
+                            for (IngotPlayer key : IngotPlayer.getInstances(plugin)) {
                                 //check if player is of this plugin and playing
                                 if ((key.getGame() != null && !"".equals(key.getGame())) && key.getPlugin() == plugin) {
                                     //get player object
@@ -1597,20 +1602,23 @@ public class SWAdminCommand implements TabExecutor {
                                 key.deleteArena(false, false);
                             }
                             //cycle through teams
-                            for (Team key : Team.getInstances()) {
+                            for (Team key : Team.getInstances(plugin)) {
                                 key.deleteTeam();
                             }
                             //cycle through spawns backwards
-                            for (short i=(short) (Spawn.getInstances().size()-1); i >= 0; i--) {
-                                Spawn.getInstances().get(i).deleteSpawn();
-                            }
+                            try {
+                                for (short i=(short) (Spawn.getInstances(plugin).size()-1); i >= 0; i--) {
+                                    Spawn.getInstances(plugin).get(i).deleteSpawn();
+                                }
+                            } 
+                            catch (IndexOutOfBoundsException ex) {}
                             //cycle through boards
-                            for (Leaderboard key : Leaderboard.getInstances()) {
+                            for (Leaderboard key : Leaderboard.getInstances(plugin)) {
                                 key.killHologram(false);
                                 key.deleteBoard();
                             }
                             //cycle throuhg borders
-                            for (GameBorder key : GameBorder.getInstances()) {
+                            for (GameBorder key : GameBorder.getInstances(plugin)) {
                                 key.deleteBorder();
                             }
                             //cancel tasks
@@ -1755,7 +1763,7 @@ public class SWAdminCommand implements TabExecutor {
         //hologram create args
         if (args.length == 3 && args[0].equalsIgnoreCase("hologram") && args[1].equalsIgnoreCase("create")) {
             //cycle through leaderboards
-            for (Leaderboard key : Leaderboard.getInstances()) {
+            for (Leaderboard key : Leaderboard.getInstances(plugin)) {
                 //check if not summoned
                 if (key.getSummoned() == false) {
                     arguments.add(key.getName());
@@ -1765,7 +1773,7 @@ public class SWAdminCommand implements TabExecutor {
         //hologram delete args
         if (args.length == 3 && args[0].equalsIgnoreCase("hologram") && args[1].equalsIgnoreCase("delete")) {
             //cycle through leaderboards
-            for (Leaderboard key : Leaderboard.getInstances()) {
+            for (Leaderboard key : Leaderboard.getInstances(plugin)) {
                 //check if summoned
                 if (key.getSummoned() == true) {
                     arguments.add(key.getName());
@@ -1775,7 +1783,7 @@ public class SWAdminCommand implements TabExecutor {
         //hologram refresh args
         if (args.length == 3 && args[0].equalsIgnoreCase("hologram") && args[1].equalsIgnoreCase("refresh")) {
             //cycle through leaderboards
-            for (Leaderboard key : Leaderboard.getInstances()) {
+            for (Leaderboard key : Leaderboard.getInstances(plugin)) {
                 //check if summoned
                 if (key.getSummoned() == true) {
                     arguments.add(key.getName());
