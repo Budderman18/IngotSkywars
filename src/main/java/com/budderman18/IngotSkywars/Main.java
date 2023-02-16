@@ -1,7 +1,7 @@
 package com.budderman18.IngotSkywars;
 
-import com.budderman18.IngotMinigamesAPI.Addons.ChestHandler;
-import com.budderman18.IngotMinigamesAPI.Addons.GameBorder;
+import com.budderman18.IngotMinigamesAPI.Addons.Handlers.ChestHandler;
+import com.budderman18.IngotMinigamesAPI.Addons.Data.GameBorder;
 import com.budderman18.IngotMinigamesAPI.Core.Data.ArenaStatus;
 import com.budderman18.IngotMinigamesAPI.Core.Data.FileManager;
 import com.budderman18.IngotMinigamesAPI.Core.Data.IngotPlayer;
@@ -389,6 +389,7 @@ public class Main extends JavaPlugin implements Listener {
                 //setup chests
                 chests = ChestHandler.chestsToRandomize(temparena.getArenaEquivelent());
                 temparena.setChests(chests);
+                drops.clear();
                 for (Chest keys : chests) {
                     if (keys.getBlockInventory().getItem(0) != null) {
                         if (keys.getBlockInventory().getItem(0).getType().toString().equalsIgnoreCase(FileManager.getCustomData(plugin, "chest", "").getString("SUPPLY_DROP.material"))) {
@@ -396,7 +397,7 @@ public class Main extends JavaPlugin implements Listener {
                         }
                     }
                 }
-                temparena.setDrops(drops);
+                temparena.setDrops(List.copyOf(drops));
                 //cycle spawns
                 for (short i = 1; i < 65534; i++) {
                     //load from file
@@ -631,7 +632,7 @@ public class Main extends JavaPlugin implements Listener {
         //reset arena chests
         for (SWArena key : SWArena.getSWInstances()) {
             if (key.getChests() != null) {
-                ChestHandler.resetChests(key.getChests(), chest);
+                ChestHandler.resetChests(key.getChests(), chest, true, key.getArenaEquivelent());
             }
         }
         //reset iplayer data
