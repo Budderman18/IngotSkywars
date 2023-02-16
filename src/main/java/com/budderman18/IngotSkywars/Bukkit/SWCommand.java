@@ -1,6 +1,6 @@
 package com.budderman18.IngotSkywars.Bukkit;
 
-import com.budderman18.IngotMinigamesAPI.Addons.KitHandler;
+import com.budderman18.IngotMinigamesAPI.Addons.Handlers.KitHandler;
 import com.budderman18.IngotMinigamesAPI.Core.Data.ArenaStatus;
 import com.budderman18.IngotMinigamesAPI.Core.Data.FileManager;
 import com.budderman18.IngotMinigamesAPI.Core.Data.IngotPlayer;

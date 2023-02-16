@@ -1,7 +1,7 @@
 package com.budderman18.IngotSkywars.Bukkit;
 
-import com.budderman18.IngotMinigamesAPI.Addons.ChestHandler;
-import com.budderman18.IngotMinigamesAPI.Addons.GameBorder;
+import com.budderman18.IngotMinigamesAPI.Addons.Handlers.ChestHandler;
+import com.budderman18.IngotMinigamesAPI.Addons.Data.GameBorder;
 import com.budderman18.IngotMinigamesAPI.Core.Data.ArenaStatus;
 import com.budderman18.IngotMinigamesAPI.Core.Data.FileManager;
 import com.budderman18.IngotMinigamesAPI.Core.Data.IngotPlayer;
@@ -991,7 +991,7 @@ public class SWAdminCommand implements TabExecutor {
                                     //regenerate arena
                                     if (tempArena != null) {
                                         tempArena.getArenaEquivelent().loadArenaSchematic(true, true, true, true);
-                                        ChestHandler.resetChests(tempArena.getChests(), FileManager.getCustomData(plugin, "chest", ""));
+                                        ChestHandler.resetChests(tempArena.getChests(), FileManager.getCustomData(plugin, "chest", ""), true, tempArena.getArenaEquivelent());
                                         sender.sendMessage(prefixMessage + arenaRegenerateRegenerated2Message);
                                         //end command
                                         return true;
@@ -1590,12 +1590,12 @@ public class SWAdminCommand implements TabExecutor {
                                     for (Chest keys : key.getChests()) {
                                         keys.setType(Material.CHEST);
                                     }
-                                    ChestHandler.resetChests(key.getChests(), config);
+                                    ChestHandler.resetChests(key.getChests(), config, true, key.getArenaEquivelent());
                                     trueDrops.clear();
                                     for (Block keys : key.getDrops()) {
                                         trueDrops.add((Chest) keys.getState());
                                     }
-                                    ChestHandler.resetChests(trueDrops, config);
+                                    ChestHandler.resetChests(trueDrops, config, true, key.getArenaEquivelent());
                                 }
                                 catch (NullPointerException | ClassCastException ex) {}
                                 //delete arena

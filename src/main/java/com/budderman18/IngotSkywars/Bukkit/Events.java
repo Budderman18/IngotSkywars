@@ -1,6 +1,6 @@
 package com.budderman18.IngotSkywars.Bukkit;
 
-import com.budderman18.IngotMinigamesAPI.Addons.GameBorder;
+import com.budderman18.IngotMinigamesAPI.Addons.Data.GameBorder;
 import com.budderman18.IngotMinigamesAPI.Core.Data.FileManager;
 import com.budderman18.IngotMinigamesAPI.Core.Data.IngotPlayer;
 import com.budderman18.IngotMinigamesAPI.Core.Data.Leaderboard;
@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import static org.bukkit.GameMode.ADVENTURE;
 import static org.bukkit.GameMode.SPECTATOR;
@@ -40,6 +41,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerArmorStandManipulateEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerTakeLecternBookEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
@@ -66,6 +68,10 @@ public class Events implements Listener {
     //files
     private static final String ROOT = "";
     private static FileConfiguration config = FileManager.getCustomData(plugin,"config",ROOT);
+    private static FileConfiguration language = FileManager.getCustomData(plugin,"language",ROOT);
+    //messages
+    private static String prefixMessage = ChatColor.translateAlternateColorCodes('&', language.getString("Prefix-Message") + "");
+    private static String unusableCommandMessage = ChatColor.translateAlternateColorCodes('&', language.getString("Unusable-Command-Message") + "");
     //global vars
     private static boolean inGame = false;
     private static boolean isPlaying = false;
@@ -77,11 +83,16 @@ public class Events implements Listener {
     private static String item = "";
     /**
      * 
-     * This method reloads the config file
+     * This method reloads the fields for this plugin
      * 
      */
     public static void reload() {
+        //files
         config = FileManager.getCustomData(plugin,"config",ROOT);
+        language = FileManager.getCustomData(plugin,"language",ROOT);
+        //messages
+        prefixMessage = ChatColor.translateAlternateColorCodes('&', language.getString("Prefix-Message") + "");
+        unusableCommandMessage = ChatColor.translateAlternateColorCodes('&', language.getString("Unusable-Command-Message") + "");
     }
     /**
      *
@@ -228,6 +239,39 @@ public class Events implements Listener {
         }
     }
     /**
+     * 
+     * This method handles command processing
+     * 
+     * @param event the event ran
+     */
+    @EventHandler
+    public void onCommandUse(PlayerCommandPreprocessEvent event) {
+        //get IngotPlayerdata
+        iplayer = IngotPlayer.selectPlayer(event.getPlayer().getName(), plugin);
+        inGame = iplayer.getInGame();
+        //check if commands are disable
+        if (inGame == true && config.getBoolean("Commands.enable") == true && !event.getPlayer().hasPermission("ingotsw.bypass")) {
+            //cancel event
+            event.setCancelled(true);
+            //cycle through allowed commands
+            for (String key : config.getStringList("Commands.allowed-commands")) {
+                //check if allowed command
+                if (event.getMessage().startsWith("/" + key)) {
+                    event.setCancelled(false);
+                }
+            }
+            //should never run, but here cause operm check above can fail
+            if (event.getPlayer().hasPermission("ingotsw.bypass")) {
+                event.setCancelled(false);
+            }
+            //check if cancelled
+            if (event.isCancelled() == true) {
+                //tell player
+                event.getPlayer().sendMessage(prefixMessage + unusableCommandMessage);
+            }
+        }
+    }
+    /**
      *
      * This method handles attacking entities. 
      * Players are not protected while playing. 
@@ -324,14 +368,17 @@ public class Events implements Listener {
             killer = event.getDamager().getName();
             item = " ";
             iplayer = IngotPlayer.selectPlayer(event.getEntity().getName(), plugin);
-            //check if in a lobby
-            if (iplayer.getInGame() == true && iplayer.getIsPlaying() == false) {
-                //check if protection is enable
-                if (config.getBoolean("enable-protection") == true) {
-                    //dont damage
-                    event.setCancelled(true);
+            try {
+                //check if in a lobby
+                if (iplayer.getInGame() == true && iplayer.getIsPlaying() == false) {
+                    //check if protection is enable
+                    if (config.getBoolean("enable-protection") == true) {
+                        //dont damage
+                        event.setCancelled(true);
+                    }
                 }
             }
+            catch (NullPointerException ex) {}
             //check if in a game
             if (iplayer.getInGame() == true && iplayer.getIsPlaying() == true) {
                 //get border
@@ -489,7 +536,7 @@ public class Events implements Listener {
         if (isFrozen == true) {
             //reset position to current position
             frozenpos.setX(event.getFrom().getX());
-            frozenpos.setY(event.getFrom().getY());
+            frozenpos.setY(event.getFrom().getBlockY());
             frozenpos.setZ(event.getFrom().getZ());
             //teleport player
             event.getPlayer().teleport(frozenpos);
@@ -802,7 +849,9 @@ public class Events implements Listener {
             try {
                 spec = new Location(Bukkit.getWorld(currentArena.getArenaEquivelent().getWorld()), currentArena.getArenaEquivelent().getSpectatorPos()[0],  currentArena.getArenaEquivelent().getSpectatorPos()[1], currentArena.getArenaEquivelent().getSpectatorPos()[2], (float) currentArena.getArenaEquivelent().getSpectatorPos()[3], (float) currentArena.getArenaEquivelent().getSpectatorPos()[4]);
             }
-            catch (NullPointerException ex) {}
+            catch (NullPointerException ex) {
+                spec = event.getRespawnLocation();
+            }
             //set as dead and inst spectator mode, as well as teleport
             selectedPlayer.setIsAlive(false);
             event.getPlayer().setGameMode(SPECTATOR);
