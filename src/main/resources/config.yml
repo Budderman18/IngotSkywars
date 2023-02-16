@@ -177,3 +177,10 @@ RandomJoin:
 Spectate:
   enable: true
   changeGamemode: true
+#Enable command blocking features
+#Useful for preventing unintended actions (like warping in-game)
+#allowed-commands allows these commands to bypass blocking
+Commands:
+  enable: true
+  allowed-commands:
+  - sw
