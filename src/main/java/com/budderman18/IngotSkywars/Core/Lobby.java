@@ -1,6 +1,6 @@
 package com.budderman18.IngotSkywars.Core;
 
-import com.budderman18.IngotMinigamesAPI.Addons.GameBorder;
+import com.budderman18.IngotMinigamesAPI.Addons.Data.GameBorder;
 import com.budderman18.IngotMinigamesAPI.Core.Data.ArenaStatus;
 import com.budderman18.IngotMinigamesAPI.Core.Data.FileManager;
 import com.budderman18.IngotMinigamesAPI.Core.Data.IngotPlayer;

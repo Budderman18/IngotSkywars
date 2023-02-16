@@ -1,8 +1,8 @@
 package com.budderman18.IngotSkywars.Core;
 
-import com.budderman18.IngotMinigamesAPI.Addons.ChestAnimation;
-import com.budderman18.IngotMinigamesAPI.Addons.ChestHandler;
-import com.budderman18.IngotMinigamesAPI.Addons.GameBorder;
+import com.budderman18.IngotMinigamesAPI.Addons.Data.ChestAnimation;
+import com.budderman18.IngotMinigamesAPI.Addons.Handlers.ChestHandler;
+import com.budderman18.IngotMinigamesAPI.Addons.Data.GameBorder;
 import com.budderman18.IngotMinigamesAPI.Core.Data.ArenaStatus;
 import com.budderman18.IngotMinigamesAPI.Core.Data.FileManager;
 import com.budderman18.IngotMinigamesAPI.Core.Data.IngotPlayer;
@@ -136,7 +136,7 @@ public class Game {
             for (Chest key : drops) {
                 //set item to supply drop item and reset
                 key.getBlockInventory().setItem(0, new ItemStack(Material.getMaterial(this.chestconfig.getString("SUPPLY_DROP.material").toUpperCase())));
-                ChestHandler.resetChests(trueDrops, this.chestconfig);
+                ChestHandler.resetChests(trueDrops, this.chestconfig, true, this.arena.getArenaEquivelent());
                 //cycle trhough drops
                 for (Block keys : this.arena.getDrops()) {
                     //set to air
@@ -145,11 +145,11 @@ public class Game {
                 //check if animation is random
                 if (this.chestconfig.getString("SUPPLY_DROP.animation").equalsIgnoreCase("random")) {
                     //animate randomly
-                    ChestHandler.animateChest(key.getLocation(), ChestAnimation.values()[random.nextInt(0, 4)], chestconfig);
+                    ChestHandler.animateChest(key.getLocation(), ChestAnimation.values()[random.nextInt(0, 4)], chestconfig, true, this.arena);
                 } 
                 else {
                     //anaimate chest
-                    ChestHandler.animateChest(key.getBlock().getLocation(), ChestAnimation.getFromString(this.chestconfig.getString("SUPPLY_DROP.animation")), chestconfig);
+                    ChestHandler.animateChest(key.getBlock().getLocation(), ChestAnimation.getFromString(this.chestconfig.getString("SUPPLY_DROP.animation")), chestconfig, true, this.arena);
                 }
                 //set pos vars
                 x = key.getLocation().getBlockX();
@@ -301,7 +301,6 @@ public class Game {
         //local vars
         Location exitLoc = new Location(Bukkit.getWorld(this.arena.getArenaEquivelent().getExitWorld()), this.arena.getArenaEquivelent().getExit()[0], this.arena.getArenaEquivelent().getExit()[1], this.arena.getArenaEquivelent().getExit()[2], (float) this.arena.getArenaEquivelent().getExit()[3], (float) this.arena.getArenaEquivelent().getExit()[4]); 
         Player player = Bukkit.getPlayer(iplayer.getUsername());
-        Runnable invstore = null;
         short losses = iplayer.getLosses();
         short score = iplayer.getScore();
         //remove player
@@ -414,7 +413,6 @@ public class Game {
         Runnable endTimer = () -> {
             //local vars
             Player player = null;
-            List<IngotPlayer> tempPlayerss = this.players;
             byte lastKills = 0;
             byte kills = 0;
             short wins = 0;
@@ -517,7 +515,7 @@ public class Game {
                 }
             }
             //reset chests
-            ChestHandler.resetChests(this.arena.getChests(), this.chestconfig);
+            ChestHandler.resetChests(this.arena.getChests(), this.chestconfig, true, this.arena.getArenaEquivelent());
             //cycle through drops
             for (Block key : this.arena.getDrops()) {
                 key.getLocation().getBlock().setType(Material.CHEST);
@@ -525,12 +523,8 @@ public class Game {
                 drop = (Chest) key.getState();
                 drop.setLock(this.chestconfig.getString("SUPPLY_DROP.material").toUpperCase());
                 drop.getBlockInventory().setItem(0, new ItemStack(Material.getMaterial(chestconfig.getString("SUPPLY_DROP.material").toUpperCase())));
-                drops.add(drop);
-                blockDrop.add(key);
             }
-            this.arena.setDrops(blockDrop);
-            ChestHandler.resetChests(drops, this.chestconfig);
-            drops.clear();
+            ChestHandler.resetChests(drops, this.chestconfig, true, this.arena.getArenaEquivelent());
             //cycle through all players
             for (byte i = (byte) (this.players.size()-1); i >= 0; i--) {
                 //force leave
@@ -546,8 +540,11 @@ public class Game {
             }
             //cancel all animations
             try {
+                //cycle through animations
                 for (Chest key : ChestHandler.getCurrentlyAnimatingChests()) {
+                    //check if in arena
                     if (this.arena.getArenaEquivelent().isInArena(key.getLocation()) == true) {
+                        //cancel animation
                         ChestHandler.cancelAnimation(key);
                     }
                 }
@@ -579,7 +576,7 @@ public class Game {
             int start = this.arena.getArenaEquivelent().getGameLengthTime();
             int end = 0;
             Player player = null;
-            //check fi border wasnt reset
+            //check if border wasnt reset
             if (GameBorder.selectBorder(this.arena.getArenaEquivelent().getName(), plugin).getRadius() != this.arena.getBorderSize()) {
                 GameBorder.selectBorder(this.arena.getArenaEquivelent().getName(), plugin).setRadius(this.arena.getBorderSize());
             }
@@ -616,16 +613,16 @@ public class Game {
                         for (Spawn keys : Spawn.getInstances(plugin)) {
                             //set occupied
                             keys.setIsOccupied(false);
-                        }
-                        //set as started
-                        this.gameStarted = true;
-                        this.taskNumber = TimerHandler.runTimer(plugin, start, end, endTimer, false, false);
-                        //fill chests
-                        ChestHandler.fillChests(this.arena.getChests(), chestconfig);
+                        }//fill chests
+                        ChestHandler.fillChests(this.arena.getChests(), chestconfig, true, this.arena.getArenaEquivelent());
                         //re-add drops
                         for (Block keys : this.arena.getDrops()) {
                             keys.setType(Material.AIR);
                         }
+                        //set as started
+                        this.gameStarted = true;
+                        this.taskNumber = TimerHandler.runTimer(plugin, start, end, endTimer, false, false);
+                        
                     }
                 } 
                 catch (IllegalArgumentException | IndexOutOfBoundsException ex) {
@@ -643,8 +640,6 @@ public class Game {
             int startTime = this.arena.getArenaEquivelent().getGameWaitTime();
             int start = this.arena.getArenaEquivelent().getGameLengthTime();
             int end = 0;
-            short wins = 0;
-            short score = 0;
             short timeToChange = 0;
             short newSize = 0;
             GameBorder border = null;
@@ -655,7 +650,6 @@ public class Game {
             Player player = null;
             String blankString = " ";
             String lineString = null;
-            Chest drop = null;
             List<Chest> drops = new ArrayList<>();
             List<Chest> trueDrops = new ArrayList<>();
             Random random = new Random();
@@ -759,7 +753,7 @@ public class Game {
                 //check if player needs to be attacked
                 if (GameBorder.selectBorder(this.arena.getArenaEquivelent().getName(), plugin).isInBorder(player.getLocation()) == false && key.getIsAttacked() == false && this.arena.getBorderSize() > 0) {
                     //get border and attack player
-                    GameBorder.selectBorder(this.arena.getArenaEquivelent().getName(), plugin).attackPlayer(player, false);
+                    GameBorder.selectBorder(this.arena.getArenaEquivelent().getName(), plugin).attackPlayer(player, false, (short) 0);
                     key.setIsAttacked(true);
                 }
                 //check if player no longer needs to be attacked
@@ -869,7 +863,7 @@ public class Game {
             //check if arena needs regenerating
             if (config.getBoolean("regenerate-arena-after-finishing") == true) {
                 this.arena.getArenaEquivelent().loadArenaSchematic(true, true, true, true);
-                ChestHandler.resetChests(this.arena.getChests(), chestconfig);
+                ChestHandler.resetChests(this.arena.getChests(), chestconfig, true, this.arena.getArenaEquivelent());
             }
             else {
                 try {
